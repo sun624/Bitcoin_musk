@@ -1,6 +1,6 @@
 #! usr/bin/env python3
 """
-1. get historical bitcoin price data and visualize the data
+1.(DONE) get historical bitcoin price data and visualize the data
     webscraping/matplotlib
 2. Use machine learning to tell Musk's twitter is bitcoin related
     Google Vision API
@@ -12,6 +12,7 @@
 """
 from os import times
 from bs4 import BeautifulSoup
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
@@ -20,7 +21,7 @@ from selenium.webdriver.common.by import By
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import matplotlib.cbook as cbook
+
 import datetime
 import requests
 import pandas as pd
@@ -79,51 +80,33 @@ def scraping_data(y1,m1,d1,y2,m2,d2):
     return [dates,prices]
 
 def draw(dates,prices):
-    # Load a numpy structured array from yahoo csv data with fields date, open,
-    # close, volume, adj_close from the mpl-data/example directory.  This array
-    # stores the date as an np.datetime64 with a day unit ('D') in the 'date'
-    # column.
-    data = cbook.get_sample_data('goog.npz', np_load=True)['price_data']
 
     fig, ax = plt.subplots()
-    ax.plot('date', 'adj_close', data=data)
+    fig.set_size_inches((12, 10))
+    ax.plot(dates, prices)
 
-    # Major ticks every 6 months.
+    #Major ticks half year
     fmt_half_year = mdates.MonthLocator(interval=6)
     ax.xaxis.set_major_locator(fmt_half_year)
 
     # Minor ticks every month.
     fmt_month = mdates.MonthLocator()
     ax.xaxis.set_minor_locator(fmt_month)
-
-    # Text in the x axis will be displayed in 'YYYY-mm' format.
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-
-    # Round to nearest years.
-    datemin = np.datetime64(data['date'][0], 'Y')
-    datemax = np.datetime64(data['date'][-1], 'Y') + np.timedelta64(1, 'Y')
-    ax.set_xlim(datemin, datemax)
-
-    # Format the coords message box, i.e. the numbers displayed as the cursor moves
-    # across the axes within the interactive GUI.
-    ax.format_xdata = mdates.DateFormatter('%Y-%m')
-    ax.format_ydata = lambda x: f'${x:.2f}'  # Format the price.
+    fig.autofmt_xdate()
     ax.grid(True)
 
-    # Rotates and right aligns the x labels, and moves the bottom of the
-    # axes up to make room for them.
-    fig.autofmt_xdate()
-
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.title('Bitcoin Price',loc='center')
     plt.show()
     
 
 
 def main():
     [dates,prices] = scraping_data(2017,1,1,2021,5,18)
-    # print(dates)
-    # print(prices)
     draw(dates,prices)
   
 
 if __name__ == '__main__':
     main()
+ 
