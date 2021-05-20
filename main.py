@@ -2,7 +2,7 @@
 """
 1.(DONE) get historical bitcoin price data and visualize the data
     webscraping/matplotlib
-2. Use machine learning to tell Musk's twitter is bitcoin related
+2. Sentiment analysis about Elon Musk's bitcoin tweets
     Google Vision API
 3. get timestamp of Musk's bitcoin twitter through API call
     api requests
@@ -26,10 +26,11 @@ import datetime
 import requests
 import pandas as pd
 import json
+import datetime
 import time
 import math
 
-#Using beautifulsoup cannot scrape dynamically changing webpages.
+#beautifulsoup cannot scrape dynamically changing webpages.
 #Instead we use third party library called Selenium and webdrivers. 
 
 def convert_date_to_unixtime(year,month,day):
@@ -37,20 +38,24 @@ def convert_date_to_unixtime(year,month,day):
     timestamp = (dt - datetime.datetime(1970,1,1)).total_seconds()
     return round(timestamp)
 
+def date_parser(date):
+    return datetime.datetime.strptime(date, '%b %d, %Y').date()
+
 def is_valid(s):
     return len(s) > 1
 
-def scraping_data(y1,m1,d1,y2,m2,d2):
+def scraping_data(y1,m1,d1,y2,m2,d2,coin):
 
     DAYS_PER_SCROLL = 100
     start_date = convert_date_to_unixtime(y1,m1,d1)
     end_date = convert_date_to_unixtime(y2,m2,d2)
 
-    url  = f'https://finance.yahoo.com/quote/BTC-USD/history?period1={start_date}&period2={end_date}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true'
+    url  = f'https://finance.yahoo.com/quote/{coin}-USD/history?period1={start_date}&period2={end_date}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true'
 
     # initiating the webdriver. Parameter includes the path of the webdriver.
     chrome_options = Options()
     chrome_options.headless = True
+    chrome_options.add_argument("--log-level=3")
     
     driver = webdriver.Chrome(executable_path='./chromedriver',options = chrome_options) 
     driver.get(url) 
@@ -65,7 +70,14 @@ def scraping_data(y1,m1,d1,y2,m2,d2):
         prices = []
         # extract date and price information
         for tr in soup.tbody.contents:
-            date = tr.contents[0].string
+            #Navigable string is not callable
+            date_source = tr.contents[0]
+            #convert navigable string into callable string
+            
+            date_string = str(date_source.string)
+
+            date = date_parser(date_string)
+
             price = tr.contents[4].string
             if is_valid(price):
                 dates.insert(0,date)
@@ -79,34 +91,36 @@ def scraping_data(y1,m1,d1,y2,m2,d2):
     driver.close()
     return [dates,prices]
 
-def draw(dates,prices):
+def draw(dates,prices,coin):
 
     fig, ax = plt.subplots()
     fig.set_size_inches((12, 10))
     ax.plot(dates, prices)
 
-    #Major ticks half year
-    fmt_half_year = mdates.MonthLocator(interval=6)
-    ax.xaxis.set_major_locator(fmt_half_year)
+    # #Major ticks one month
+    # fmt_month = mdates.MonthLocator()
+    # ax.xaxis.set_major_locator(fmt_month)
 
-    # Minor ticks every month.
-    fmt_month = mdates.MonthLocator()
-    ax.xaxis.set_minor_locator(fmt_month)
+    # # Minor ticks every week.
+    # fmt_day = mdates.DayLocator(interval=7)
+    # ax.xaxis.set_minor_locator(fmt_day)
+    ax.xaxis.set_major_locator(mdates.AutoDateLocator())
+    ax.xaxis.set_minor_locator(mdates.DayLocator())
     fig.autofmt_xdate()
     ax.grid(True)
 
     plt.xlabel('Date')
     plt.ylabel('Price')
-    plt.title('Bitcoin Price',loc='center')
+    plt.title(f'{coin} coin Price',loc='center')
     plt.show()
     
 
 
 def main():
-    [dates,prices] = scraping_data(2017,1,1,2021,5,18)
-    draw(dates,prices)
+    [dates,prices] = scraping_data(2021,1,1,2021,5,18,'DOGE')
+    draw(dates,prices,'DOGE')
   
 
 if __name__ == '__main__':
     main()
- 
+    
