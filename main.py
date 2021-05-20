@@ -1,14 +1,14 @@
 #! usr/bin/env python3
 """
-1.(DONE) get historical bitcoin price data and visualize the data
+1.(DONE) get historical dogecoin price data and visualize the data
     webscraping/matplotlib
-2. Sentiment analysis about Elon Musk's bitcoin tweets
-    Google Vision API
-3. get timestamp of Musk's bitcoin twitter through API call
+2.(DONE) get timestamp of Musk's dogecoin twitter through API call
     api requests
-4. overlay twitter timestamp on price chart
+3.(In progress) Analyze pictures about Elon Musk's dogecoin tweets
+    Google Vision API
+4.(TODO)overlay twitter timestamp on price chart
     matplotlib
-5. Optional: Auto buy and sell bitcoin on Binance based on Musk's twitter
+5. Optional: Auto buy and sell dogecoin on robinhood based on Musk's twitter
 """
 from os import times
 from bs4 import BeautifulSoup
