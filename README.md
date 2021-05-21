@@ -48,7 +48,7 @@ select the exact same version as your chrome has and put it in the same folder a
       "private_key_id": "350b8f*******dd4d00d784c8",
       "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqjU4FUCn....i8LQ3gF0qVD1sQlXuxe\n6PwI0huXQn6E6VxpAhMUPg==\n-----END PRIVATE KEY-----\n",
       "client_email": "dog**er@visi****-doge.iam.gserviceaccount.com",
-      "client_id": "100539018777085887992",
+      "client_id": "1005**********5887992",
       "auth_uri": "https://accounts.google.com/o/oauth2/auth",
       "token_uri": "https://oauth2.googleapis.com/token",
       "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
