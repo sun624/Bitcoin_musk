@@ -58,7 +58,7 @@ def get_coin_tweets_dates(usr_name):
         if 'media' in tw.entities:
             img_url = tw.entities['media'][0]['media_url']
             if analyze_picture(img_url):
-                print(url,'related to Doge')
+                print(img_url,'related to Doge')
                 coin_img_tweets_dates.append(tw.created_at)
     print(f'{len(coin_img_tweets_dates)} images tweets related to Doge')
 

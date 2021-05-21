@@ -122,11 +122,9 @@ def draw(dates,prices,coin,tw_dates):
 
 def main():
     start_time = time.time()
-    
+
     [dates,prices] = scraping_data(2021,1,1,2021,5,21,'DOGE')
 
-    #fix dates error from yahoo website
-    dates[-1] = datetime.date(2021, 5, 20)
     tweet_dates = get_coin_tweets_dates('elonmusk')
     draw(dates,prices,'DOGE',tweet_dates)
 
