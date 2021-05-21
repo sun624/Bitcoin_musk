@@ -1,16 +1,4 @@
 #! usr/bin/env python3
-"""
-1.(DONE) get historical dogecoin price data and visualize the data
-    webscraping/matplotlib
-2.(DONE) get timestamp of Musk's dogecoin twitter through API call
-    api requests
-3.(Done) Analyze pictures about Elon Musk's dogecoin tweets
-    Amazon Rekognition API
-4.(Done)overlay twitter timestamp on price chart
-    matplotlib
-5. Optional: Auto buy and sell dogecoin on robinhood based on Musk's twitter
-    use Robinhodd API
-"""
 from os import times
 from bs4 import BeautifulSoup
 
