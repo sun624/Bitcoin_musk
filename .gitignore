@@ -1,2 +1,5 @@
 secrets.json
 chromedriver.exe
+vision_api_cred.json
+.vscode
+demo-img.jpg
