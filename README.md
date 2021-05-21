@@ -73,7 +73,7 @@ select the exact same version as your chrome has and put it in the same folder a
 |Future | Auto buy and sell dogecoin on robinhood based on Musk's twitter |
 
 ## Output
-<img src="https://github.com/sun624/Bitcoin_musk/blob/master/price.png?raw=true" alt="result" width="400"/>
+<img src="https://github.com/sun624/Bitcoin_musk/blob/master/price.png?raw=true" alt="result" width="800"/>
 
 ## License
 
